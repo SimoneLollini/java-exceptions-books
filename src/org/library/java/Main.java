@@ -1,6 +1,10 @@
 package org.library.java;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +17,7 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         System.out.print("Quanti libri vuoi inserire?");
-        int book_length = scan.nextInt();
+        int book_length = Integer.parseInt(scan.nextLine());
         Book[] books = new Book[book_length];
 
         for (int i = 0; i < books.length; i++) {
@@ -42,11 +46,42 @@ public class Main {
         }
         scan.close();
         //Al termine dell’inserimento scrivere tutti i dati dei libri in un file
-        // e in seguito rileggerli dal file e mostrarli a video.
+
+        /********* scrittura **********/
+        String filePath = "./books-list.txt";
+        try {
+            FileWriter newFile = new FileWriter("books-list.txt",true);
+            for (int i = 0; i <books.length; i++) {
+                assert books[i] != null;
+                newFile.write( books[i].toString()  + "\n");
+            }
+            newFile.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.getMessage();
+        }
 
 
-        //creo l'istanza della classe File
-        File filePath = new File(".");
 
+        /********* lettura **********/
+        Scanner fileScan = null;
+        try {
+            fileScan = new Scanner(new File(filePath));
+            while (fileScan.hasNext()) {
+                String line = fileScan.nextLine();
+                System.out.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (fileScan != null) {
+                try {
+                    fileScan.close();
+                } catch (IllegalStateException ise) {
+                    ise.printStackTrace();
+                }
+            }
+        }
     }
 }

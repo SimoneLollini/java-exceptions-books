@@ -70,4 +70,14 @@ public class Book {
         isFieldValid(publisher,"editore");
         this.publisher = publisher;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "titolo: " + title + '\'' +
+                ", pagine='" + pages + '\'' +
+                ", autore='" + author + '\'' +
+                ", editore=" + publisher +
+                '}';
+    }
 }
