@@ -1,14 +1,4 @@
 package org.library.java;
-//        Consegna: Vogliamo gestire il catalogo di libri di una biblioteca.
-//        Un libro è composto da :
-//        - titolo
-//        - numero pagine
-//        - autore
-//        - editore
-//        Scrivere un programma che inserisce n libri in un array.
-//        Chiede i dati di un libro (titolo, numero pagine, autore, editore),
-//        istanzia un nuovo oggetto della classe Book e lo inserisce nell’array.
-//        Lo fa per il numero di elementi previsti nell’array.
 public class Book {
 
     String title;
@@ -16,18 +6,41 @@ public class Book {
     String author;
     String publisher;
 
-    public Book(String title, int pages, String author, String publisher) {
+    public Book(String title, int pages, String author, String publisher) throws IllegalArgumentException {
+
+        isFieldValid(title,"titolo");
+        isFieldValid(author,"autore");
+        isFieldValid(publisher,"editore");
+
+        isNumValid(pages);
+
+
         this.title = title;
         this.pages = pages;
         this.author = author;
         this.publisher = publisher;
     }
 
+
+
+    private void isFieldValid(String str, String field) throws IllegalArgumentException {
+
+        if (str.isBlank())
+            throw new IllegalArgumentException("Campo " + field + " non valido");
+    }
+
+    private void isNumValid(int pages) throws IllegalArgumentException{
+        if (pages < 1)
+            throw new IllegalArgumentException("Il numero delle pagine deve essere un intero superiore ad 1");
+    }
+
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
+        isFieldValid(title, "titolo");
         this.title = title;
     }
 
@@ -36,6 +49,7 @@ public class Book {
     }
 
     public void setPages(int pages) {
+        isNumValid(pages);
         this.pages = pages;
     }
 
@@ -44,6 +58,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+        isFieldValid(author, "autore");
         this.author = author;
     }
 
@@ -52,6 +67,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+        isFieldValid(publisher,"editore");
         this.publisher = publisher;
     }
 }
